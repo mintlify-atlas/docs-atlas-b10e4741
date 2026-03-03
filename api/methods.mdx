@@ -1,0 +1,154 @@
+---
+title: Methods reference
+description: Public methods available on SquigglySlider component instances
+---
+
+SquigglySlider exposes several methods for programmatic control. Method availability varies by framework.
+
+## Animation control
+
+<ParamField path="show()" type="method">
+  Animates the slider into view with an exponential easing effect. The slider expands from zero width to full width over 1 second, with the circle radius scaling simultaneously.
+  
+  **Availability:** Svelte (exported function), Web Component
+  
+  **Returns:** `void`
+  
+  **Example:**
+  
+  ```js
+  // Web Component
+  const slider = document.querySelector('squiggly-slider');
+  slider.show();
+  ```
+  
+  ```svelte
+  <!-- Svelte -->
+  <script>
+    let sliderComponent;
+  </script>
+  
+  <SquigglySlider bind:this={sliderComponent} />
+  <button on:click={() => sliderComponent.show()}>Show</button>
+  ```
+</ParamField>
+
+<ParamField path="hide()" type="method">
+  Animates the slider out of view with an exponential easing effect. The slider collapses from full width to zero width over 1 second, and rendering is paused when complete.
+  
+  **Availability:** Web Component only
+  
+  **Returns:** `void`
+  
+  **Example:**
+  
+  ```js
+  const slider = document.querySelector('squiggly-slider');
+  slider.hide();
+  ```
+</ParamField>
+
+<ParamField path="pause()" type="method">
+  Pauses the animation loop, stopping wave motion while keeping the slider visible.
+  
+  **Availability:** Web Component only
+  
+  **Returns:** `void`
+  
+  **Example:**
+  
+  ```js
+  const slider = document.querySelector('squiggly-slider');
+  slider.pause();
+  ```
+</ParamField>
+
+<ParamField path="resume()" type="method">
+  Resumes the animation loop after being paused, restarting wave motion.
+  
+  **Availability:** Web Component only
+  
+  **Returns:** `void`
+  
+  **Example:**
+  
+  ```js
+  const slider = document.querySelector('squiggly-slider');
+  slider.resume();
+  ```
+</ParamField>
+
+## Layout
+
+<ParamField path="resetSize()" type="method">
+  Recalculates and resets the canvas dimensions based on the container width. Also resets the progress and calls `show()` to re-animate the slider.
+  
+  **Note:** In Web Component, this is called automatically via ResizeObserver. In Svelte, it's exposed as `resetWidthAndHeight()`.
+  
+  **Availability:** Svelte (as `resetWidthAndHeight`), Web Component
+  
+  **Returns:** `void`
+  
+  **Example:**
+  
+  ```js
+  // Web Component
+  const slider = document.querySelector('squiggly-slider');
+  slider.resetSize();
+  ```
+  
+  ```svelte
+  <!-- Svelte -->
+  <script>
+    let sliderComponent;
+  </script>
+  
+  <SquigglySlider bind:this={sliderComponent} />
+  <button on:click={() => sliderComponent.resetWidthAndHeight()}>
+    Reset Size
+  </button>
+  ```
+</ParamField>
+
+## Framework-specific notes
+
+### Svelte
+
+Access methods using component binding:
+
+```svelte
+<script>
+  import SquigglySlider from 'squiggly-slider';
+  let slider;
+</script>
+
+<SquigglySlider bind:this={slider} />
+
+<button on:click={() => slider.show()}>Show</button>
+<button on:click={() => slider.resetWidthAndHeight()}>Reset</button>
+```
+
+**Available methods:** `show()`, `resetWidthAndHeight()`
+
+### React
+
+React implementation does not expose public methods. All animations and resizing are handled internally through hooks and effects.
+
+### Web Component
+
+All methods are available directly on the element instance:
+
+```js
+const slider = document.querySelector('squiggly-slider');
+
+// Animation
+slider.show();
+slider.hide();
+slider.pause();
+slider.resume();
+
+// Layout
+slider.resetSize();
+```
+
+**Available methods:** `show()`, `hide()`, `pause()`, `resume()`, `resetSize()`

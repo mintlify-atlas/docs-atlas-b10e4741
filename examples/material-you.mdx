@@ -1,0 +1,367 @@
+---
+title: Material You themed examples
+description: Examples using Material Design 3 color tokens and theming
+---
+
+## Material You integration
+
+Squiggly Sliders are designed to work seamlessly with Material Design 3 color tokens. The default color props reference Material You CSS variables.
+
+## Basic Material You setup
+
+Define Material Design 3 tokens in your stylesheet:
+
+```css
+:root {
+  --md-sys-color-primary: rgb(97 97 24);
+  --md-sys-color-on-surface: rgb(28 28 20);
+}
+```
+
+Then use them in your slider:
+
+<CodeGroup>
+
+```svelte Svelte
+<script>
+  import SquigglySlider from 'squiggly-sliders';
+  let value = 6;
+</script>
+
+<SquigglySlider
+  bind:value
+  min={0}
+  max={10}
+  active={'--md-sys-color-primary'}
+  passive={'--md-sys-color-on-surface'}
+/>
+```
+
+```jsx React
+import { useState } from 'react';
+import SquigglySlider from 'squiggly-sliders/react';
+
+export default function App() {
+  const [value, setValue] = useState(6);
+
+  return (
+    <SquigglySlider
+      min={0}
+      max={10}
+      value={value}
+      onChange={setValue}
+      active="--md-sys-color-primary"
+      passive="--md-sys-color-on-surface"
+    />
+  );
+}
+```
+
+```html Web Components
+<script type="module">
+  import 'squiggly-sliders/web';
+</script>
+
+<squiggly-slider
+  min="0"
+  max="10"
+  value="6"
+  active="--md-sys-color-primary"
+  passive="--md-sys-color-on-surface"
+></squiggly-slider>
+```
+
+</CodeGroup>
+
+## Runtime theme switching
+
+Conditionally update theme variables at runtime if your app already defines them:
+
+<CodeGroup>
+
+```svelte Svelte
+<script>
+  import SquigglySlider from 'squiggly-sliders';
+
+  const themeVars = {
+    '--md-sys-color-primary': 'rgb(97 97 24)',
+    '--md-sys-color-on-surface': 'rgb(28 28 20)'
+  };
+
+  // Only update if variables already exist
+  for (const [name, value] of Object.entries(themeVars)) {
+    const existing = getComputedStyle(document.documentElement)
+      .getPropertyValue(name).trim();
+    if (existing) {
+      document.documentElement.style.setProperty(name, value);
+    }
+  }
+
+  let value = 6;
+</script>
+
+<SquigglySlider
+  bind:value
+  min={0}
+  max={10}
+  active={'--md-sys-color-primary'}
+  passive={'--md-sys-color-on-surface'}
+/>
+```
+
+```jsx React
+import { useState, useEffect } from 'react';
+import SquigglySlider from 'squiggly-sliders/react';
+
+export default function App() {
+  const [value, setValue] = useState(6);
+
+  useEffect(() => {
+    const themeVars = {
+      '--md-sys-color-primary': 'rgb(97 97 24)',
+      '--md-sys-color-on-surface': 'rgb(28 28 20)'
+    };
+
+    // Only update if variables already exist
+    for (const [name, value] of Object.entries(themeVars)) {
+      const existing = getComputedStyle(document.documentElement)
+        .getPropertyValue(name).trim();
+      if (existing) {
+        document.documentElement.style.setProperty(name, value);
+      }
+    }
+  }, []);
+
+  return (
+    <SquigglySlider
+      min={0}
+      max={10}
+      value={value}
+      onChange={setValue}
+      active="--md-sys-color-primary"
+      passive="--md-sys-color-on-surface"
+    />
+  );
+}
+```
+
+```html Web Components
+<script type="module">
+  import 'squiggly-sliders/web';
+
+  const themeVars = {
+    '--md-sys-color-primary': 'rgb(97 97 24)',
+    '--md-sys-color-on-surface': 'rgb(28 28 20)'
+  };
+
+  // Only update if variables already exist
+  for (const [name, value] of Object.entries(themeVars)) {
+    const existing = getComputedStyle(document.documentElement)
+      .getPropertyValue(name).trim();
+    if (existing) {
+      document.documentElement.style.setProperty(name, value);
+    }
+  }
+</script>
+
+<squiggly-slider
+  min="0"
+  max="10"
+  value="6"
+  active="--md-sys-color-primary"
+  passive="--md-sys-color-on-surface"
+></squiggly-slider>
+```
+
+</CodeGroup>
+
+## Dark mode support
+
+The slider automatically responds to color scheme changes. Define light and dark tokens:
+
+```css
+:root {
+  --md-sys-color-primary: rgb(97 97 24);
+  --md-sys-color-on-surface: rgb(28 28 20);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --md-sys-color-primary: rgb(215 215 110);
+    --md-sys-color-on-surface: rgb(230 230 215);
+  }
+}
+```
+
+The slider will automatically use the correct colors based on the user's color scheme preference.
+
+<CodeGroup>
+
+```svelte Svelte
+<script>
+  import SquigglySlider from 'squiggly-sliders';
+  let value = 6;
+</script>
+
+<SquigglySlider
+  bind:value
+  min={0}
+  max={10}
+  active={'--md-sys-color-primary'}
+  passive={'--md-sys-color-on-surface'}
+/>
+```
+
+```jsx React
+import { useState } from 'react';
+import SquigglySlider from 'squiggly-sliders/react';
+
+export default function App() {
+  const [value, setValue] = useState(6);
+
+  return (
+    <SquigglySlider
+      min={0}
+      max={10}
+      value={value}
+      onChange={setValue}
+      active="--md-sys-color-primary"
+      passive="--md-sys-color-on-surface"
+    />
+  );
+}
+```
+
+```html Web Components
+<script type="module">
+  import 'squiggly-sliders/web';
+</script>
+
+<squiggly-slider
+  min="0"
+  max="10"
+  value="6"
+  active="--md-sys-color-primary"
+  passive="--md-sys-color-on-surface"
+></squiggly-slider>
+```
+
+</CodeGroup>
+
+## Additional Material You tokens
+
+Use other Material Design 3 color tokens for different visual effects:
+
+<CodeGroup>
+
+```svelte Svelte
+<script>
+  import SquigglySlider from 'squiggly-sliders';
+  let value = 6;
+</script>
+
+<!-- Primary variant -->
+<SquigglySlider
+  bind:value
+  min={0}
+  max={10}
+  active={'--md-sys-color-primary'}
+  passive={'--md-sys-color-on-surface-variant'}
+/>
+
+<!-- Secondary variant -->
+<SquigglySlider
+  bind:value
+  min={0}
+  max={10}
+  active={'--md-sys-color-secondary'}
+  passive={'--md-sys-color-on-surface'}
+/>
+
+<!-- Tertiary variant -->
+<SquigglySlider
+  bind:value
+  min={0}
+  max={10}
+  active={'--md-sys-color-tertiary'}
+  passive={'--md-sys-color-on-surface'}
+/>
+```
+
+```jsx React
+import { useState } from 'react';
+import SquigglySlider from 'squiggly-sliders/react';
+
+export default function App() {
+  const [value, setValue] = useState(6);
+
+  return (
+    <>
+      {/* Primary variant */}
+      <SquigglySlider
+        min={0}
+        max={10}
+        value={value}
+        onChange={setValue}
+        active="--md-sys-color-primary"
+        passive="--md-sys-color-on-surface-variant"
+      />
+
+      {/* Secondary variant */}
+      <SquigglySlider
+        min={0}
+        max={10}
+        value={value}
+        onChange={setValue}
+        active="--md-sys-color-secondary"
+        passive="--md-sys-color-on-surface"
+      />
+
+      {/* Tertiary variant */}
+      <SquigglySlider
+        min={0}
+        max={10}
+        value={value}
+        onChange={setValue}
+        active="--md-sys-color-tertiary"
+        passive="--md-sys-color-on-surface"
+      />
+    </>
+  );
+}
+```
+
+```html Web Components
+<script type="module">
+  import 'squiggly-sliders/web';
+</script>
+
+<!-- Primary variant -->
+<squiggly-slider
+  min="0"
+  max="10"
+  value="6"
+  active="--md-sys-color-primary"
+  passive="--md-sys-color-on-surface-variant"
+></squiggly-slider>
+
+<!-- Secondary variant -->
+<squiggly-slider
+  min="0"
+  max="10"
+  value="6"
+  active="--md-sys-color-secondary"
+  passive="--md-sys-color-on-surface"
+></squiggly-slider>
+
+<!-- Tertiary variant -->
+<squiggly-slider
+  min="0"
+  max="10"
+  value="6"
+  active="--md-sys-color-tertiary"
+  passive="--md-sys-color-on-surface"
+></squiggly-slider>
+```
+
+</CodeGroup>

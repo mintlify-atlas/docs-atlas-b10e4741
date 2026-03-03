@@ -1,80 +1,204 @@
 ---
-title: "Quickstart"
-description: "Start building awesome documentation in minutes"
+title: Quick start
+description: Create your first Squiggly Slider in Svelte with value binding and custom animations
 ---
 
-## Get started in three steps
+# Quick start
 
-Get your documentation site running locally and make your first customization.
+This guide walks you through creating a fully interactive Squiggly Slider in Svelte. You'll build a slider with two-way data binding and custom wave animations.
 
-### Step 1: Set up your local environment
+<Steps>
+  <Step title="Import the component">
+    Start by importing `SquigglySlider` into your Svelte component:
 
-<AccordionGroup>
-  <Accordion icon="copy" title="Clone your docs locally">
-    During the onboarding process, you created a GitHub repository with your docs content if you didn't already have one. You can find a link to this repository in your [dashboard](https://dashboard.mintlify.com).
-    
-    To clone the repository locally so that you can make and preview changes to your docs, follow the [Cloning a repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) guide in the GitHub docs.
-  </Accordion>
-  <Accordion icon="rectangle-terminal" title="Start the preview server">
-    1. Install the Mintlify CLI: `npm i -g mint`
-    2. Navigate to your docs directory and run: `mint dev`
-    3. Open `http://localhost:3000` to see your docs live!
-    
-    <Tip>Your preview updates automatically as you edit files.</Tip>
-  </Accordion>
-</AccordionGroup>
+    ```svelte
+    <script>
+      import SquigglySlider from 'squiggly-sliders';
+    </script>
+    ```
+  </Step>
 
-### Step 2: Deploy your changes
+  <Step title="Add the minimal slider">
+    Create a basic slider with required props:
 
-<AccordionGroup>
-  <Accordion icon="github" title="Install our GitHub app">
-    Install the Mintlify GitHub app from your [dashboard](https://dashboard.mintlify.com/settings/organization/github-app).
-    
-    Our GitHub app automatically deploys your changes to your docs site, so you don't need to manage deployments yourself.
-</Accordion>
-<Accordion icon="palette" title="Update your site name and colors">
-    For a first change, let's update the name and colors of your docs site.
+    ```svelte
+    <script>
+      import SquigglySlider from 'squiggly-sliders';
+    </script>
 
-    1. Open `docs.json` in your editor.
-    2. Change the `"name"` field to your project name.
-    3. Update the `"colors"` to match your brand.
-    4. Save and see your changes instantly at `http://localhost:3000`.
+    <SquigglySlider
+      min={0}
+      max={10}
+      value={6}
+      active={'--md-sys-color-primary'}
+      passive={'--md-sys-color-on-surface'}
+    />
+    ```
 
-    <Tip>Try changing the primary color to see an immediate difference!</Tip>
-  </Accordion>
-</AccordionGroup>
+    This renders an animated slider from 0 to 10 with the value set at 6. The `active` and `passive` props reference CSS variables that control the wave colors.
+  </Step>
 
-### Step 3: Go live
+  <Step title="Bind the value">
+    Use Svelte's `bind:value` directive to create two-way data binding:
 
-<Accordion icon="rocket" title="Publish your docs">
-  1. Commit and push your changes.
-  2. Your docs will update and be live in moments!
-</Accordion>
+    ```svelte
+    <script>
+      import SquigglySlider from 'squiggly-sliders';
+      let value = 6;
+    </script>
+
+    <SquigglySlider
+      bind:value
+      min={0}
+      max={10}
+      active={'--md-sys-color-primary'}
+      passive={'--md-sys-color-on-surface'}
+    />
+
+    <p>Current value: {value}</p>
+    ```
+
+    Now when you drag the slider, the `value` variable updates automatically, and you can also change `value` programmatically to update the slider.
+  </Step>
+
+  <Step title="Customize the animations">
+    Add wave customization props to control the animation physics:
+
+    ```svelte
+    <script>
+      import SquigglySlider from 'squiggly-sliders';
+      let value = 6;
+    </script>
+
+    <SquigglySlider
+      bind:value
+      min={0}
+      max={10}
+      step={1}
+      active={'--md-sys-color-primary'}
+      passive={'--md-sys-color-on-surface'}
+      activeAmplitude={4}
+      passiveAmplitude={2}
+      activeWavelength={1}
+      passiveWavelength={1}
+      speedFactor={4}
+    />
+    ```
+
+    <Note>
+      - `activeAmplitude` and `passiveAmplitude` control wave height (0-7)
+      - `activeWavelength` and `passiveWavelength` control wave frequency (0.25-7)
+      - `speedFactor` controls animation speed (1-8, where higher is faster)
+    </Note>
+  </Step>
+
+  <Step title="Define your CSS variables">
+    Ensure your CSS includes the color variables referenced in the `active` and `passive` props:
+
+    ```css
+    :root {
+      --md-sys-color-primary: rgb(97 97 24);
+      --md-sys-color-on-surface: rgb(28 28 20);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --md-sys-color-primary: rgb(189 189 106);
+        --md-sys-color-on-surface: rgb(228 228 220);
+      }
+    }
+    ```
+
+    The slider automatically detects and responds to theme changes via the `prefers-color-scheme` media query.
+  </Step>
+</Steps>
+
+## Complete example
+
+Here's the full working example with all features:
+
+```svelte
+<script>
+  import SquigglySlider from 'squiggly-sliders';
+  let value = 6;
+</script>
+
+<div class="slider-container">
+  <h2>Squiggly Slider Demo</h2>
+  
+  <SquigglySlider
+    bind:value
+    min={0}
+    max={10}
+    step={1}
+    active={'--md-sys-color-primary'}
+    passive={'--md-sys-color-on-surface'}
+    activeAmplitude={4}
+    passiveAmplitude={2}
+    activeWavelength={1}
+    passiveWavelength={1}
+    speedFactor={4}
+  />
+  
+  <p>Current value: {value}</p>
+  
+  <button on:click={() => value = Math.floor(Math.random() * 11)}>
+    Random value
+  </button>
+</div>
+
+<style>
+  .slider-container {
+    max-width: 500px;
+    padding: 2rem;
+  }
+  
+  h2 {
+    margin-bottom: 1.5rem;
+  }
+  
+  p {
+    margin-top: 1rem;
+    font-size: 1.125rem;
+  }
+  
+  button {
+    margin-top: 1rem;
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem;
+    background: var(--md-sys-color-primary);
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+</style>
+```
+
+## Understanding the wave physics
+
+The wave animations use sine functions to create smooth, continuous motion:
+
+- **Amplitude**: Controls the vertical displacement (wave height). Higher values create more dramatic waves.
+- **Wavelength**: Controls the horizontal frequency. Lower values create tighter, more frequent waves.
+- **Speed factor**: Multiplies the time variable in the animation loop. Higher values speed up the wave motion.
+
+The active and passive waves can have independent physics, letting you create visual contrast between the filled and unfilled portions of the slider.
 
 ## Next steps
 
-Now that you have your docs running, explore these key features:
+Explore advanced customization options and framework-specific implementations:
 
 <CardGroup cols={2}>
-
-<Card title="Write Content" icon="pen-to-square" href="/essentials/markdown">
-  Learn MDX syntax and start writing your documentation.
-</Card>
-
-<Card title="Customize style" icon="palette" href="/essentials/settings">
-  Make your docs match your brand perfectly.
-</Card>
-
-<Card title="Add code examples" icon="square-code" href="/essentials/code">
-  Include syntax-highlighted code blocks.
-</Card>
-
-<Card title="API documentation" icon="code" href="/api-reference/introduction">
-  Auto-generate API docs from OpenAPI specs.
-</Card>
-
+  <Card title="React integration" icon="react" href="/guides/react">
+    Use Squiggly Sliders in React applications
+  </Card>
+  <Card title="Web Components" icon="code" href="/guides/web-components">
+    Integrate with vanilla JavaScript or any framework
+  </Card>
+  <Card title="Theming guide" icon="palette" href="/guides/theming">
+    Advanced CSS variable theming and runtime customization
+  </Card>
+  <Card title="API reference" icon="book" href="/api/props">
+    Complete prop documentation and methods
+  </Card>
 </CardGroup>
-
-<Note>
-  **Need help?** See our [full documentation](https://mintlify.com/docs) or join our [community](https://mintlify.com/community).
-</Note>

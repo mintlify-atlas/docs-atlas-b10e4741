@@ -1,0 +1,391 @@
+---
+title: Animation properties
+description: Customize wave animations with amplitude, wavelength, and speed
+---
+
+Squiggly Sliders uses animated sine waves to create its distinctive wave effect. You can customize the animation behavior using amplitude, wavelength, and speed properties.
+
+## Understanding the wave animation
+
+The slider draws two animated sine waves:
+
+- **Active wave** - The filled portion from the start to the current value
+- **Passive wave** - The unfilled portion from the current value to the end
+
+Each wave has independent control over its amplitude (height) and wavelength (frequency).
+
+## Amplitude
+
+Amplitude controls the wave height (how far up and down the wave oscillates).
+
+### Active amplitude
+
+Controls the wave height for the filled portion:
+
+```svelte
+<script>
+  import SquigglySlider from 'squiggly-sliders';
+</script>
+
+<SquigglySlider
+  min={0}
+  max={10}
+  value={6}
+  activeAmplitude={7}
+  active="--md-sys-color-primary"
+  passive="--md-sys-color-on-surface"
+/>
+```
+
+- **Range**: 0-7
+- **Default**: 4
+- **Effect**: Higher values create taller waves
+
+<Info>
+`activeAmplitude={0}` creates a straight line with no wave effect.
+</Info>
+
+### Passive amplitude
+
+Controls the wave height for the unfilled portion:
+
+```svelte
+<script>
+  import SquigglySlider from 'squiggly-sliders';
+</script>
+
+<SquigglySlider
+  min={0}
+  max={10}
+  value={6}
+  passiveAmplitude={2}
+  active="--md-sys-color-primary"
+  passive="--md-sys-color-on-surface"
+/>
+```
+
+- **Range**: 0-7
+- **Default**: 2
+- **Effect**: Higher values create taller waves
+
+### Amplitude examples
+
+<Tabs>
+  <Tab title="Subtle waves">
+    ```svelte
+    <SquigglySlider
+      activeAmplitude={2}
+      passiveAmplitude={1}
+      active="--md-sys-color-primary"
+      passive="--md-sys-color-on-surface"
+    />
+    ```
+  </Tab>
+  
+  <Tab title="Pronounced waves">
+    ```svelte
+    <SquigglySlider
+      activeAmplitude={7}
+      passiveAmplitude={5}
+      active="--md-sys-color-primary"
+      passive="--md-sys-color-on-surface"
+    />
+    ```
+  </Tab>
+  
+  <Tab title="Contrasting waves">
+    ```svelte
+    <SquigglySlider
+      activeAmplitude={7}
+      passiveAmplitude={1}
+      active="--md-sys-color-primary"
+      passive="--md-sys-color-on-surface"
+    />
+    ```
+  </Tab>
+</Tabs>
+
+<Note>
+The active portion typically has a higher amplitude than the passive portion to create visual emphasis.
+</Note>
+
+## Wavelength
+
+Wavelength controls the wave frequency (how many complete wave cycles fit in a given space).
+
+### Active wavelength
+
+Controls the wave frequency for the filled portion:
+
+```svelte
+<script>
+  import SquigglySlider from 'squiggly-sliders';
+</script>
+
+<SquigglySlider
+  min={0}
+  max={10}
+  value={6}
+  activeWavelength={2}
+  active="--md-sys-color-primary"
+  passive="--md-sys-color-on-surface"
+/>
+```
+
+- **Range**: 0.25-7
+- **Default**: 1
+- **Effect**: Higher values create wider, more stretched waves
+
+### Passive wavelength
+
+Controls the wave frequency for the unfilled portion:
+
+```svelte
+<script>
+  import SquigglySlider from 'squiggly-sliders';
+</script>
+
+<SquigglySlider
+  min={0}
+  max={10}
+  value={6}
+  passiveWavelength={1.5}
+  active="--md-sys-color-primary"
+  passive="--md-sys-color-on-surface"
+/>
+```
+
+- **Range**: 0.25-7
+- **Default**: 1
+- **Effect**: Higher values create wider, more stretched waves
+
+### Wavelength examples
+
+<Tabs>
+  <Tab title="Tight waves">
+    ```svelte
+    <SquigglySlider
+      activeWavelength={0.5}
+      passiveWavelength={0.5}
+      active="--md-sys-color-primary"
+      passive="--md-sys-color-on-surface"
+    />
+    ```
+  </Tab>
+  
+  <Tab title="Stretched waves">
+    ```svelte
+    <SquigglySlider
+      activeWavelength={5}
+      passiveWavelength={5}
+      active="--md-sys-color-primary"
+      passive="--md-sys-color-on-surface"
+    />
+    ```
+  </Tab>
+  
+  <Tab title="Different frequencies">
+    ```svelte
+    <SquigglySlider
+      activeWavelength={2}
+      passiveWavelength={0.5}
+      active="--md-sys-color-primary"
+      passive="--md-sys-color-on-surface"
+    />
+    ```
+  </Tab>
+</Tabs>
+
+<Info>
+Lower wavelength values create more wave cycles in the same space, making the animation appear faster and more energetic.
+</Info>
+
+## Speed factor
+
+Speed factor controls how fast the waves animate horizontally:
+
+```svelte
+<script>
+  import SquigglySlider from 'squiggly-sliders';
+</script>
+
+<SquigglySlider
+  min={0}
+  max={10}
+  value={6}
+  speedFactor={8}
+  active="--md-sys-color-primary"
+  passive="--md-sys-color-on-surface"
+/>
+```
+
+- **Range**: 1-8
+- **Default**: 4
+- **Effect**: Higher values create faster animation
+
+### Speed factor examples
+
+<Tabs>
+  <Tab title="Slow animation">
+    ```svelte
+    <SquigglySlider
+      speedFactor={1}
+      active="--md-sys-color-primary"
+      passive="--md-sys-color-on-surface"
+    />
+    ```
+  </Tab>
+  
+  <Tab title="Fast animation">
+    ```svelte
+    <SquigglySlider
+      speedFactor={8}
+      active="--md-sys-color-primary"
+      passive="--md-sys-color-on-surface"
+    />
+    ```
+  </Tab>
+</Tabs>
+
+<Note>
+The speed factor applies to both the active and passive waves. You cannot set different speeds for each wave.
+</Note>
+
+## How the animation works
+
+The wave animation uses the sine function with the following formula:
+
+```javascript
+y = amplitude * Math.sin(x / (6 * wavelength) + time / ((10 - speedFactor) * 60)) + centerY
+```
+
+Where:
+- `amplitude` is `activeAmplitude` or `passiveAmplitude`
+- `wavelength` is `activeWavelength` or `passiveWavelength`
+- `speedFactor` affects the time component
+- `centerY` is the vertical center of the canvas
+
+<Info>
+The animation runs at 60fps using `requestAnimationFrame` for smooth, efficient rendering.
+</Info>
+
+## Complete example with all properties
+
+Here's an example using all animation properties together:
+
+<Tabs>
+  <Tab title="Svelte">
+    ```svelte
+    <script>
+      import SquigglySlider from 'squiggly-sliders';
+      let value = 6;
+    </script>
+
+    <SquigglySlider
+      bind:value
+      min={0}
+      max={10}
+      step={1}
+      activeAmplitude={6}
+      passiveAmplitude={3}
+      activeWavelength={1.5}
+      passiveWavelength={1}
+      speedFactor={5}
+      active="--md-sys-color-primary"
+      passive="--md-sys-color-on-surface"
+    />
+    ```
+  </Tab>
+  
+  <Tab title="React">
+    ```jsx
+    import { useState } from 'react';
+    import SquigglySlider from 'squiggly-sliders/react';
+
+    function App() {
+      const [value, setValue] = useState(6);
+
+      return (
+        <SquigglySlider
+          min={0}
+          max={10}
+          step={1}
+          value={value}
+          onChange={setValue}
+          activeAmplitude={6}
+          passiveAmplitude={3}
+          activeWavelength={1.5}
+          passiveWavelength={1}
+          speedFactor={5}
+          active="--md-sys-color-primary"
+          passive="--md-sys-color-on-surface"
+        />
+      );
+    }
+    ```
+  </Tab>
+  
+  <Tab title="Web Component">
+    ```html
+    <squiggly-slider
+      min="0"
+      max="10"
+      step="1"
+      value="6"
+      active-amplitude="6"
+      passive-amplitude="3"
+      active-wavelength="1.5"
+      passive-wavelength="1"
+      speed-factor="5"
+      active="--md-sys-color-primary"
+      passive="--md-sys-color-on-surface"
+    ></squiggly-slider>
+    ```
+  </Tab>
+</Tabs>
+
+## Performance considerations
+
+The animation runs continuously using `requestAnimationFrame`. For optimal performance:
+
+- Use moderate amplitude values (2-5 range)
+- Avoid extreme wavelength values at the ends of the range
+- Consider pausing animation when the slider is not visible
+
+<Warning>
+Very high amplitude values (6-7) combined with very low wavelength values (0.25-0.5) can create dense, complex animations that may impact performance on lower-end devices.
+</Warning>
+
+## Pausing and resuming animation (Web Component only)
+
+The Web Component provides methods to control animation:
+
+```javascript
+const slider = document.querySelector('squiggly-slider');
+
+// Pause animation
+slider.pause();
+
+// Resume animation
+slider.resume();
+```
+
+<Info>
+Pausing the animation when the slider is not visible (e.g., off-screen or in a hidden tab) can improve overall application performance.
+</Info>
+
+## Animation property ranges
+
+Quick reference for all animation property ranges:
+
+| Property | Minimum | Maximum | Default |
+|----------|---------|---------|----------|
+| `activeAmplitude` | 0 | 7 | 4 |
+| `passiveAmplitude` | 0 | 7 | 2 |
+| `activeWavelength` | 0.25 | 7 | 1 |
+| `passiveWavelength` | 0.25 | 7 | 1 |
+| `speedFactor` | 1 | 8 | 4 |
+
+<Note>
+These ranges are recommendations based on the source code. You can technically use values outside these ranges, but they may produce unexpected visual results.
+</Note>

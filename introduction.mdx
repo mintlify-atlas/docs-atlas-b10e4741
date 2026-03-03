@@ -1,0 +1,65 @@
+---
+title: Introduction
+description: Animated wave-effect sliders with CSS-variable theming for modern web applications
+---
+
+# Introduction to Squiggly Sliders
+
+Squiggly Sliders brings playful, animated wave effects to your range inputs. Built with smooth animations and CSS variable theming, it seamlessly adapts to your design system.
+
+## Features
+
+<CardGroup cols={2}>
+  <Card title="Wave animations" icon="water">
+    Smooth, customizable wave effects that animate continuously along the slider track
+  </Card>
+  <Card title="CSS variable theming" icon="palette">
+    Integrates with your existing CSS variables for automatic dark mode and theme support
+  </Card>
+  <Card title="Framework support" icon="layer-group">
+    Works with Svelte, React, and vanilla JavaScript through Web Components
+  </Card>
+  <Card title="Customizable physics" icon="sliders">
+    Control amplitude, wavelength, and speed to match your design language
+  </Card>
+</CardGroup>
+
+## Overview
+
+Squiggly Sliders renders a canvas-based animated slider with two wave patterns:
+
+- **Active wave**: Displays from the start to the current value position with customizable amplitude and color
+- **Passive wave**: Shows from the current value to the end with independent styling
+
+The component uses an invisible HTML range input overlaid on the canvas, ensuring native accessibility and interaction behavior.
+
+### How it works
+
+The slider uses `requestAnimationFrame` to continuously render animated sine waves along the track. As you drag the handle, the active and passive sections smoothly transition using exponential easing. Colors are resolved from CSS variables at runtime, automatically reflecting theme changes.
+
+### Props at a glance
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `value` | number | random | Current slider value |
+| `min` | number | `0` | Minimum value |
+| `max` | number | `10` | Maximum value |
+| `step` | number | `1` | Step increment |
+| `active` | string | `--md-sys-color-primary` | CSS variable for active wave color |
+| `passive` | string | `--md-sys-color-on-surface` | CSS variable for passive wave color |
+| `activeAmplitude` | number | `4` | Active wave height (0-7) |
+| `passiveAmplitude` | number | `2` | Passive wave height (0-7) |
+| `activeWavelength` | number | `1` | Active wave frequency (0.25-7) |
+| `passiveWavelength` | number | `1` | Passive wave frequency (0.25-7) |
+| `speedFactor` | number | `4` | Animation speed (1-8) |
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Installation" icon="download" href="/installation">
+    Install Squiggly Sliders in your project
+  </Card>
+  <Card title="Quick start" icon="rocket" href="/quickstart">
+    Create your first animated slider in minutes
+  </Card>
+</CardGroup>

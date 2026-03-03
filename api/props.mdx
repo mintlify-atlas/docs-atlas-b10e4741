@@ -1,0 +1,150 @@
+---
+title: Props reference
+description: Complete reference for all SquigglySlider component properties
+---
+
+## Slider configuration
+
+<ParamField path="min" type="number" default="0">
+  The minimum value of the slider range.
+</ParamField>
+
+<ParamField path="max" type="number" default="10">
+  The maximum value of the slider range.
+</ParamField>
+
+<ParamField path="step" type="number" default="1">
+  The increment step size for slider values.
+</ParamField>
+
+<ParamField path="value" type="number">
+  The current value of the slider. When provided in React, the component operates in controlled mode.
+  
+  **React-specific:** If omitted, uses `defaultValue` or generates a random initial value.
+</ParamField>
+
+<ParamField path="defaultValue" type="number">
+  The initial uncontrolled value. Only applies to React.
+  
+  **Framework:** React only
+</ParamField>
+
+<ParamField path="title" type="string" default="''">
+  Accessible title/label for the slider input element.
+</ParamField>
+
+## Visual properties
+
+<ParamField path="active" type="string" default="'--primary'">
+  Color of the active (filled) portion of the slider. Accepts CSS color values or CSS variable names (with or without `var()` wrapper).
+  
+  Examples: `'--primary'`, `'var(--accent)'`, `'#3b82f6'`, `'rgb(59, 130, 246)'`
+</ParamField>
+
+<ParamField path="passive" type="string" default="'--text'">
+  Color of the passive (unfilled) portion of the slider. Accepts CSS color values or CSS variable names.
+</ParamField>
+
+<ParamField path="activeAmplitude" type="number" default="4">
+  Wave amplitude in pixels for the active portion of the slider. Higher values create taller waves.
+</ParamField>
+
+<ParamField path="passiveAmplitude" type="number" default="2">
+  Wave amplitude in pixels for the passive portion of the slider. Higher values create taller waves.
+</ParamField>
+
+<ParamField path="speedFactor" type="number" default="4">
+  Controls animation speed of the wave motion. Higher values (up to 10) create faster animations.
+  
+  The internal formula is: `now / ((10 - speedFactor) * 60)`
+</ParamField>
+
+<ParamField path="activeWavelength" type="number" default="1">
+  Controls the wavelength (frequency) of waves in the active portion. Lower values create more frequent waves.
+</ParamField>
+
+<ParamField path="passiveWavelength" type="number" default="1">
+  Controls the wavelength (frequency) of waves in the passive portion. Lower values create more frequent waves.
+</ParamField>
+
+## Interaction
+
+<ParamField path="disabled" type="boolean" default="false">
+  Whether the slider is disabled and non-interactive.
+  
+  **Framework:** React and Web Component only (not available in Svelte)
+</ParamField>
+
+<ParamField path="onChange" type="function">
+  Callback function invoked when the slider value changes. Receives the new numeric value as an argument.
+  
+  **Framework:** React only
+  
+  ```jsx
+  <SquigglySlider onChange={(newValue) => console.log(newValue)} />
+  ```
+</ParamField>
+
+## Styling
+
+<ParamField path="className" type="string">
+  Additional CSS class name(s) to apply to the container element.
+  
+  **Framework:** React only
+</ParamField>
+
+<ParamField path="style" type="object">
+  Inline styles to apply to the container element.
+  
+  **Framework:** React only
+</ParamField>
+
+## Framework-specific notes
+
+### Svelte
+
+All props are exported as component properties. Use bind directives for two-way binding:
+
+```svelte
+<script>
+  import SquigglySlider from 'squiggly-slider';
+  let sliderValue = 5;
+</script>
+
+<SquigglySlider bind:value={sliderValue} min={0} max={10} />
+```
+
+### React
+
+Supports both controlled and uncontrolled modes:
+
+```jsx
+// Controlled
+<SquigglySlider value={value} onChange={setValue} />
+
+// Uncontrolled
+<SquigglySlider defaultValue={5} onChange={(v) => console.log(v)} />
+```
+
+### Web Component
+
+Props map to HTML attributes using kebab-case for multi-word properties:
+
+```html
+<squiggly-slider 
+  min="0" 
+  max="100" 
+  value="50"
+  active-amplitude="6"
+  passive-amplitude="3"
+  speed-factor="5"
+></squiggly-slider>
+```
+
+Access properties via JavaScript:
+
+```js
+const slider = document.querySelector('squiggly-slider');
+slider.value = 75;
+slider.activeAmplitude = 8;
+```

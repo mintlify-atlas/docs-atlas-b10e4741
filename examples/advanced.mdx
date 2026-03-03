@@ -1,0 +1,387 @@
+---
+title: Advanced examples
+description: Custom wave properties, controlled components, and advanced configurations
+---
+
+## Custom wave properties
+
+Adjust the wave animation with amplitude, wavelength, and speed parameters:
+
+<CodeGroup>
+
+```svelte Svelte
+<script>
+  import SquigglySlider from 'squiggly-sliders';
+  let value = 6;
+</script>
+
+<SquigglySlider
+  bind:value
+  min={0}
+  max={10}
+  step={1}
+  active={'--md-sys-color-primary'}
+  passive={'--md-sys-color-on-surface'}
+  activeAmplitude={4}
+  passiveAmplitude={2}
+  activeWavelength={1}
+  passiveWavelength={1}
+  speedFactor={4}
+/>
+```
+
+```jsx React
+import { useState } from 'react';
+import SquigglySlider from 'squiggly-sliders/react';
+
+export default function App() {
+  const [value, setValue] = useState(6);
+
+  return (
+    <SquigglySlider
+      min={0}
+      max={10}
+      step={1}
+      value={value}
+      onChange={setValue}
+      active="--md-sys-color-primary"
+      passive="--md-sys-color-on-surface"
+      activeAmplitude={4}
+      passiveAmplitude={2}
+      activeWavelength={1}
+      passiveWavelength={1}
+      speedFactor={4}
+    />
+  );
+}
+```
+
+```html Web Components
+<script type="module">
+  import 'squiggly-sliders/web';
+</script>
+
+<squiggly-slider
+  min="0"
+  max="10"
+  step="1"
+  value="6"
+  active="--md-sys-color-primary"
+  passive="--md-sys-color-on-surface"
+  active-amplitude="4"
+  passive-amplitude="2"
+  active-wavelength="1"
+  passive-wavelength="1"
+  speed-factor="4"
+></squiggly-slider>
+```
+
+</CodeGroup>
+
+### Wave property ranges
+
+- **activeAmplitude**: `0–7` (default `4`) - Height of the active wave
+- **passiveAmplitude**: `0–7` (default `2`) - Height of the passive wave
+- **activeWavelength**: `0.25–7` (default `1`) - Length of the active wave cycles
+- **passiveWavelength**: `0.25–7` (default `1`) - Length of the passive wave cycles
+- **speedFactor**: `1–8` (default `4`) - Animation speed
+
+## Subtle wave effect
+
+Create a more subtle animation with smaller amplitudes:
+
+<CodeGroup>
+
+```svelte Svelte
+<script>
+  import SquigglySlider from 'squiggly-sliders';
+  let value = 5;
+</script>
+
+<SquigglySlider
+  bind:value
+  min={0}
+  max={10}
+  active={'--md-sys-color-primary'}
+  passive={'--md-sys-color-on-surface'}
+  activeAmplitude={2}
+  passiveAmplitude={1}
+  speedFactor={2}
+/>
+```
+
+```jsx React
+import { useState } from 'react';
+import SquigglySlider from 'squiggly-sliders/react';
+
+export default function App() {
+  const [value, setValue] = useState(5);
+
+  return (
+    <SquigglySlider
+      min={0}
+      max={10}
+      value={value}
+      onChange={setValue}
+      active="--md-sys-color-primary"
+      passive="--md-sys-color-on-surface"
+      activeAmplitude={2}
+      passiveAmplitude={1}
+      speedFactor={2}
+    />
+  );
+}
+```
+
+```html Web Components
+<script type="module">
+  import 'squiggly-sliders/web';
+</script>
+
+<squiggly-slider
+  min="0"
+  max="10"
+  value="5"
+  active="--md-sys-color-primary"
+  passive="--md-sys-color-on-surface"
+  active-amplitude="2"
+  passive-amplitude="1"
+  speed-factor="2"
+></squiggly-slider>
+```
+
+</CodeGroup>
+
+## Dramatic wave effect
+
+Increase amplitude and wavelength for a more pronounced effect:
+
+<CodeGroup>
+
+```svelte Svelte
+<script>
+  import SquigglySlider from 'squiggly-sliders';
+  let value = 5;
+</script>
+
+<SquigglySlider
+  bind:value
+  min={0}
+  max={10}
+  active={'--md-sys-color-primary'}
+  passive={'--md-sys-color-on-surface'}
+  activeAmplitude={7}
+  passiveAmplitude={4}
+  activeWavelength={2}
+  passiveWavelength={2}
+  speedFactor={6}
+/>
+```
+
+```jsx React
+import { useState } from 'react';
+import SquigglySlider from 'squiggly-sliders/react';
+
+export default function App() {
+  const [value, setValue] = useState(5);
+
+  return (
+    <SquigglySlider
+      min={0}
+      max={10}
+      value={value}
+      onChange={setValue}
+      active="--md-sys-color-primary"
+      passive="--md-sys-color-on-surface"
+      activeAmplitude={7}
+      passiveAmplitude={4}
+      activeWavelength={2}
+      passiveWavelength={2}
+      speedFactor={6}
+    />
+  );
+}
+```
+
+```html Web Components
+<script type="module">
+  import 'squiggly-sliders/web';
+</script>
+
+<squiggly-slider
+  min="0"
+  max="10"
+  value="5"
+  active="--md-sys-color-primary"
+  passive="--md-sys-color-on-surface"
+  active-amplitude="7"
+  passive-amplitude="4"
+  active-wavelength="2"
+  passive-wavelength="2"
+  speed-factor="6"
+></squiggly-slider>
+```
+
+</CodeGroup>
+
+## Disabled state
+
+Disable user interaction:
+
+<CodeGroup>
+
+```svelte Svelte
+<script>
+  import SquigglySlider from 'squiggly-sliders';
+  let value = 6;
+  let disabled = true;
+</script>
+
+<SquigglySlider
+  bind:value
+  {disabled}
+  min={0}
+  max={10}
+  active={'--md-sys-color-primary'}
+  passive={'--md-sys-color-on-surface'}
+/>
+```
+
+```jsx React
+import { useState } from 'react';
+import SquigglySlider from 'squiggly-sliders/react';
+
+export default function App() {
+  const [value, setValue] = useState(6);
+
+  return (
+    <SquigglySlider
+      min={0}
+      max={10}
+      value={value}
+      onChange={setValue}
+      active="--md-sys-color-primary"
+      passive="--md-sys-color-on-surface"
+      disabled={true}
+    />
+  );
+}
+```
+
+```html Web Components
+<script type="module">
+  import 'squiggly-sliders/web';
+</script>
+
+<squiggly-slider
+  min="0"
+  max="10"
+  value="6"
+  active="--md-sys-color-primary"
+  passive="--md-sys-color-on-surface"
+  disabled
+></squiggly-slider>
+```
+
+</CodeGroup>
+
+## Programmatic control
+
+Control slider properties and methods programmatically:
+
+<CodeGroup>
+
+```svelte Svelte
+<script>
+  import SquigglySlider from 'squiggly-sliders';
+  import { onMount } from 'svelte';
+
+  let slider;
+  let value = 5;
+
+  onMount(() => {
+    // Access component methods
+    window.addEventListener('resize', () => {
+      slider?.resetWidthAndHeight();
+    });
+  });
+</script>
+
+<SquigglySlider
+  bind:this={slider}
+  bind:value
+  min={0}
+  max={10}
+  active={'--md-sys-color-primary'}
+  passive={'--md-sys-color-on-surface'}
+/>
+```
+
+```jsx React
+import { useRef, useState } from 'react';
+import SquigglySlider from 'squiggly-sliders/react';
+
+export default function App() {
+  const [value, setValue] = useState(5);
+
+  const updateValue = (newValue) => {
+    setValue(newValue);
+  };
+
+  return (
+    <>
+      <SquigglySlider
+        min={0}
+        max={10}
+        value={value}
+        onChange={setValue}
+        active="--md-sys-color-primary"
+        passive="--md-sys-color-on-surface"
+      />
+      <button onClick={() => updateValue(3)}>Set to 3</button>
+      <button onClick={() => updateValue(7)}>Set to 7</button>
+    </>
+  );
+}
+```
+
+```html Web Components
+<script type="module">
+  import 'squiggly-sliders/web';
+
+  const slider = document.querySelector('squiggly-slider');
+
+  // Programmatically set value
+  document.querySelector('#set3').addEventListener('click', () => {
+    slider.value = 3;
+  });
+
+  document.querySelector('#set7').addEventListener('click', () => {
+    slider.value = 7;
+  });
+
+  // Pause and resume animation
+  document.querySelector('#pause').addEventListener('click', () => {
+    slider.pause();
+  });
+
+  document.querySelector('#resume').addEventListener('click', () => {
+    slider.resume();
+  });
+</script>
+
+<squiggly-slider
+  min="0"
+  max="10"
+  value="5"
+  active="--md-sys-color-primary"
+  passive="--md-sys-color-on-surface"
+></squiggly-slider>
+
+<button id="set3">Set to 3</button>
+<button id="set7">Set to 7</button>
+<button id="pause">Pause</button>
+<button id="resume">Resume</button>
+```
+
+</CodeGroup>

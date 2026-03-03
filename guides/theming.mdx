@@ -1,0 +1,336 @@
+---
+title: Theming with CSS variables
+description: Customize Squiggly Sliders colors using CSS variables
+---
+
+Squiggly Sliders uses CSS variables for colors, making it easy to integrate with your design system and support light/dark modes.
+
+## How theming works
+
+The slider accepts CSS variable names (not color values) in its color props. It then reads the actual color values from your CSS at runtime:
+
+```css
+:root {
+  --md-sys-color-primary: rgb(97 97 24);
+  --md-sys-color-on-surface: rgb(28 28 20);
+}
+```
+
+```svelte
+<SquigglySlider
+  value={6}
+  active="--md-sys-color-primary"
+  passive="--md-sys-color-on-surface"
+/>
+```
+
+<Info>
+By using CSS variables instead of direct color values, the slider automatically adapts when you change your theme colors.
+</Info>
+
+## Default variables
+
+The default color variable names differ slightly between implementations:
+
+<Tabs>
+  <Tab title="Svelte">
+    - `active`: `--md-sys-color-primary`
+    - `passive`: `--md-sys-color-on-surface`
+  </Tab>
+  
+  <Tab title="React & Web Component">
+    - `active`: `--primary`
+    - `passive`: `--text`
+  </Tab>
+</Tabs>
+
+<Note>
+You can use any CSS variable name you want by passing it to the `active` and `passive` props.
+</Note>
+
+## Basic theming example
+
+Define your colors as CSS variables and reference them in the slider:
+
+<CodeGroup>
+```css Global CSS
+:root {
+  --md-sys-color-primary: rgb(97 97 24);
+  --md-sys-color-on-surface: rgb(28 28 20);
+}
+```
+
+```svelte Svelte
+<script>
+  import SquigglySlider from 'squiggly-sliders';
+</script>
+
+<SquigglySlider
+  min={0}
+  max={10}
+  value={6}
+  active="--md-sys-color-primary"
+  passive="--md-sys-color-on-surface"
+/>
+```
+
+```jsx React
+import SquigglySlider from 'squiggly-sliders/react';
+
+function App() {
+  return (
+    <SquigglySlider
+      min={0}
+      max={10}
+      defaultValue={6}
+      active="--md-sys-color-primary"
+      passive="--md-sys-color-on-surface"
+    />
+  );
+}
+```
+</CodeGroup>
+
+## Light and dark mode
+
+Use media queries to define different colors for light and dark modes:
+
+```css
+:root {
+  --md-sys-color-primary: rgb(97 97 24);
+  --md-sys-color-on-surface: rgb(28 28 20);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --md-sys-color-primary: rgb(220 220 140);
+    --md-sys-color-on-surface: rgb(230 230 220);
+  }
+}
+```
+
+<Note>
+The slider automatically listens to `prefers-color-scheme` changes and re-reads the CSS variables when the system theme changes.
+</Note>
+
+## Using with Material Design
+
+The default variable names follow Material Design's color system naming:
+
+```css
+:root {
+  /* Material Design 3 color tokens */
+  --md-sys-color-primary: rgb(103 80 164);
+  --md-sys-color-on-surface: rgb(28 27 31);
+  --md-sys-color-secondary: rgb(98 91 113);
+  --md-sys-color-tertiary: rgb(125 82 96);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --md-sys-color-primary: rgb(208 188 255);
+    --md-sys-color-on-surface: rgb(230 225 229);
+    --md-sys-color-secondary: rgb(204 194 220);
+    --md-sys-color-tertiary: rgb(239 184 200);
+  }
+}
+```
+
+<Info>
+You can use any Material Design color tokens with the slider by passing them to the `active` and `passive` props.
+</Info>
+
+## Using with Tailwind CSS
+
+Reference Tailwind's CSS variables directly:
+
+```css
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --primary: 38 92 255;
+    --text: 15 23 42;
+  }
+
+  .dark {
+    --primary: 147 197 253;
+    --text: 226 232 240;
+  }
+}
+```
+
+```jsx
+import SquigglySlider from 'squiggly-sliders/react';
+
+function App() {
+  return (
+    <SquigglySlider
+      min={0}
+      max={10}
+      defaultValue={6}
+      active="--primary"
+      passive="--text"
+    />
+  );
+}
+```
+
+<Note>
+When using Tailwind's color format (space-separated RGB values), wrap them in `rgb()` in your CSS: `rgb(var(--primary))`.
+</Note>
+
+## Using direct color values
+
+You can also pass direct color values instead of CSS variables:
+
+```svelte
+<script>
+  import SquigglySlider from 'squiggly-sliders';
+</script>
+
+<SquigglySlider
+  min={0}
+  max={10}
+  value={6}
+  active="rgb(97 97 24)"
+  passive="rgb(28 28 20)"
+/>
+```
+
+<Warning>
+When using direct color values, the slider cannot automatically adapt to theme changes. Use CSS variables for dynamic theming.
+</Warning>
+
+## Scoped variables
+
+You can define variables at any scope level. The slider reads from its nearest parent:
+
+```html
+<div style="--primary: rgb(255 0 0); --text: rgb(100 100 100);">
+  <squiggly-slider
+    min="0"
+    max="10"
+    value="6"
+    active="--primary"
+    passive="--text"
+  ></squiggly-slider>
+</div>
+
+<div style="--primary: rgb(0 255 0); --text: rgb(150 150 150);">
+  <squiggly-slider
+    min="0"
+    max="10"
+    value="6"
+    active="--primary"
+    passive="--text"
+  ></squiggly-slider>
+</div>
+```
+
+<Info>
+The component looks for CSS variables first on its parent element, then falls back to `:root` if not found.
+</Info>
+
+## Updating variables at runtime
+
+You can update CSS variable values dynamically using JavaScript:
+
+```javascript
+// Update a single variable
+document.documentElement.style.setProperty('--md-sys-color-primary', 'rgb(255 0 0)');
+
+// Update multiple variables
+const theme = {
+  '--md-sys-color-primary': 'rgb(97 97 24)',
+  '--md-sys-color-on-surface': 'rgb(28 28 20)'
+};
+
+for (const [name, value] of Object.entries(theme)) {
+  document.documentElement.style.setProperty(name, value);
+}
+```
+
+<Note>
+The slider automatically detects changes to CSS variables and updates its colors accordingly.
+</Note>
+
+## Conditional theming
+
+Only update theme variables if they're already defined in your app:
+
+```svelte
+<script>
+  import SquigglySlider from 'squiggly-sliders';
+  
+  const themeVars = {
+    '--md-sys-color-primary': 'rgb(97 97 24)',
+    '--md-sys-color-on-surface': 'rgb(28 28 20)'
+  };
+  
+  for (const [name, value] of Object.entries(themeVars)) {
+    const existing = getComputedStyle(document.documentElement)
+      .getPropertyValue(name)
+      .trim();
+    if (existing) {
+      document.documentElement.style.setProperty(name, value);
+    }
+  }
+</script>
+
+<SquigglySlider
+  min={0}
+  max={10}
+  value={6}
+  active="--md-sys-color-primary"
+  passive="--md-sys-color-on-surface"
+/>
+```
+
+<Info>
+This pattern is useful when integrating with existing applications that may already define their own theme variables.
+</Info>
+
+## Color variable resolution
+
+The slider resolves color variables in the following order:
+
+1. Check if the prop starts with `--` or `var(`
+2. If yes, look for the variable on the slider's parent element
+3. If not found, look for the variable on `:root`
+4. If not found, use the prop value as a direct color
+5. If invalid, fall back to default colors
+
+<Tabs>
+  <Tab title="Svelte">
+    Default fallbacks:
+    - Active: `rgb(0 0 0)` (black)
+    - Passive: `rgb(153 153 153)` (gray)
+  </Tab>
+  
+  <Tab title="React & Web Component">
+    Default fallbacks:
+    - Active: `#000` (black)
+    - Passive: `#999` (gray)
+  </Tab>
+</Tabs>
+
+## Using var() syntax
+
+You can use the `var()` CSS function syntax:
+
+```svelte
+<SquigglySlider
+  min={0}
+  max={10}
+  value={6}
+  active="var(--md-sys-color-primary)"
+  passive="var(--md-sys-color-on-surface)"
+/>
+```
+
+<Note>
+Both `--variable-name` and `var(--variable-name)` work identically. The slider normalizes the format internally.
+</Note>

@@ -1,0 +1,422 @@
+---
+title: Using with Web Components
+description: Complete guide to using Squiggly Sliders as a native web component
+---
+
+Squiggly Sliders provides a native Web Component that works in any framework or vanilla JavaScript environment. This guide shows you how to use the `<squiggly-slider>` custom element.
+
+## Installation
+
+Install the package using your preferred package manager:
+
+<CodeGroup>
+```bash npm
+npm i squiggly-sliders
+```
+
+```bash pnpm
+pnpm add squiggly-sliders
+```
+
+```bash yarn
+yarn add squiggly-sliders
+```
+</CodeGroup>
+
+## Basic usage
+
+Import the web component and use it as a custom HTML element:
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Squiggly Slider Demo</title>
+</head>
+<body>
+  <squiggly-slider
+    min="0"
+    max="10"
+    value="6"
+    active="--md-sys-color-primary"
+    passive="--md-sys-color-on-surface"
+  ></squiggly-slider>
+
+  <script type="module">
+    import 'squiggly-sliders/web';
+  </script>
+</body>
+</html>
+```
+
+<Note>
+The web component is imported from `squiggly-sliders/web`. It automatically registers the `<squiggly-slider>` custom element.
+</Note>
+
+## Using with JavaScript
+
+You can create and manipulate the element using JavaScript:
+
+```html
+<div id="slider-container"></div>
+
+<script type="module">
+  import 'squiggly-sliders/web';
+
+  const slider = document.createElement('squiggly-slider');
+  slider.min = 0;
+  slider.max = 100;
+  slider.value = 50;
+  slider.active = '--md-sys-color-primary';
+  slider.passive = '--md-sys-color-on-surface';
+
+  document.getElementById('slider-container').appendChild(slider);
+</script>
+```
+
+## Reading and updating values
+
+You can read and update the slider value using properties or attributes:
+
+<Tabs>
+  <Tab title="Using properties">
+    ```javascript
+    const slider = document.querySelector('squiggly-slider');
+
+    // Read value
+    console.log(slider.value);
+
+    // Update value
+    slider.value = 75;
+    ```
+  </Tab>
+  
+  <Tab title="Using attributes">
+    ```javascript
+    const slider = document.querySelector('squiggly-slider');
+
+    // Read value
+    console.log(slider.getAttribute('value'));
+
+    // Update value
+    slider.setAttribute('value', '75');
+    ```
+  </Tab>
+</Tabs>
+
+<Info>
+Both methods work identically. Property setters internally update attributes, and attribute changes trigger property updates.
+</Info>
+
+## Listening to value changes
+
+Listen to the native `input` event to detect value changes:
+
+```html
+<squiggly-slider
+  min="0"
+  max="10"
+  value="5"
+  active="--md-sys-color-primary"
+  passive="--md-sys-color-on-surface"
+></squiggly-slider>
+
+<p>Current value: <span id="display">5</span></p>
+
+<script type="module">
+  import 'squiggly-sliders/web';
+
+  const slider = document.querySelector('squiggly-slider');
+  const display = document.getElementById('display');
+
+  slider.addEventListener('input', (e) => {
+    display.textContent = slider.value;
+  });
+</script>
+```
+
+<Note>
+The component dispatches native `input` events on the underlying range input element, which bubble up through the shadow DOM.
+</Note>
+
+## Customizing animation
+
+You can customize the wave animation using kebab-case attributes:
+
+```html
+<squiggly-slider
+  min="0"
+  max="10"
+  value="5"
+  active="--md-sys-color-primary"
+  passive="--md-sys-color-on-surface"
+  active-amplitude="7"
+  passive-amplitude="3"
+  active-wavelength="2"
+  passive-wavelength="1.5"
+  speed-factor="6"
+></squiggly-slider>
+```
+
+Or using camelCase properties in JavaScript:
+
+```javascript
+const slider = document.createElement('squiggly-slider');
+slider.activeAmplitude = 7;
+slider.passiveAmplitude = 3;
+slider.activeWavelength = 2;
+slider.passiveWavelength = 1.5;
+slider.speedFactor = 6;
+```
+
+## All available attributes and properties
+
+<Tabs>
+  <Tab title="Range attributes">
+    - `min` / `min` - Minimum value (default: `0`)
+    - `max` / `max` - Maximum value (default: `10`)
+    - `step` / `step` - Step increment (default: `1`)
+    - `value` / `value` - Current value
+    - `title` / `title` - Accessible title for the slider
+    - `disabled` / `disabled` - Whether the slider is disabled
+  </Tab>
+  
+  <Tab title="Color attributes">
+    - `active` / `active` - CSS variable name for active portion (default: `'--primary'`)
+    - `passive` / `passive` - CSS variable name for passive portion (default: `'--text'`)
+  </Tab>
+  
+  <Tab title="Animation attributes">
+    - `active-amplitude` / `activeAmplitude` - Wave height for active portion, range 0-7 (default: `4`)
+    - `passive-amplitude` / `passiveAmplitude` - Wave height for passive portion, range 0-7 (default: `2`)
+    - `active-wavelength` / `activeWavelength` - Wave frequency for active portion, range 0.25-7 (default: `1`)
+    - `passive-wavelength` / `passiveWavelength` - Wave frequency for passive portion, range 0.25-7 (default: `1`)
+    - `speed-factor` / `speedFactor` - Animation speed, range 1-8 (default: `4`)
+  </Tab>
+</Tabs>
+
+## Public methods
+
+The web component exposes several public methods:
+
+```javascript
+const slider = document.querySelector('squiggly-slider');
+
+// Pause animation
+slider.pause();
+
+// Resume animation
+slider.resume();
+
+// Show slider with entrance animation
+slider.show();
+
+// Hide slider with exit animation
+slider.hide();
+
+// Reset canvas size (useful after container resize)
+slider.resetSize();
+
+// Update colors (reads CSS variables again)
+slider.updateColors();
+```
+
+<Info>
+The `pause()` and `resume()` methods are useful for performance optimization when the slider is not visible.
+</Info>
+
+## Responsive behavior
+
+The component automatically resizes using a `ResizeObserver` attached to its shadow container:
+
+```html
+<div style="width: 100%; max-width: 600px;">
+  <squiggly-slider
+    min="0"
+    max="100"
+    value="50"
+    active="--md-sys-color-primary"
+    passive="--md-sys-color-on-surface"
+  ></squiggly-slider>
+</div>
+```
+
+<Note>
+The component observes its container element and automatically adjusts canvas dimensions when the container size changes.
+</Note>
+
+## Shadow DOM structure
+
+The component uses Shadow DOM to encapsulate its implementation:
+
+```html
+<squiggly-slider>
+  #shadow-root
+    <style>...</style>
+    <div class="container">
+      <canvas aria-hidden="true"></canvas>
+      <input type="range" />
+    </div>
+</squiggly-slider>
+```
+
+<Warning>
+Because the component uses Shadow DOM, you cannot style internal elements using global CSS. Use CSS variables for theming instead.
+</Warning>
+
+## Accessibility
+
+The component uses a native HTML range input underneath the canvas, ensuring keyboard accessibility:
+
+```html
+<squiggly-slider
+  min="0"
+  max="100"
+  value="50"
+  title="Volume control"
+  active="--md-sys-color-primary"
+  passive="--md-sys-color-on-surface"
+></squiggly-slider>
+```
+
+<Info>
+The `title` attribute sets an accessible label. The canvas element is marked with `aria-hidden="true"` so assistive technology focuses on the underlying range input.
+</Info>
+
+## Dark mode support
+
+The component automatically responds to color scheme changes:
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    :root {
+      --md-sys-color-primary: rgb(97 97 24);
+      --md-sys-color-on-surface: rgb(28 28 20);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --md-sys-color-primary: rgb(220 220 140);
+        --md-sys-color-on-surface: rgb(230 230 220);
+      }
+    }
+  </style>
+</head>
+<body>
+  <squiggly-slider
+    min="0"
+    max="10"
+    value="5"
+    active="--md-sys-color-primary"
+    passive="--md-sys-color-on-surface"
+  ></squiggly-slider>
+
+  <script type="module">
+    import 'squiggly-sliders/web';
+  </script>
+</body>
+</html>
+```
+
+<Note>
+The component listens to `prefers-color-scheme` media query changes and automatically re-reads CSS variable values.
+</Note>
+
+## Using with frameworks
+
+The web component works with any framework that supports custom elements:
+
+<Tabs>
+  <Tab title="Vue">
+    ```vue
+    <template>
+      <squiggly-slider
+        :min="0"
+        :max="10"
+        :value="value"
+        @input="handleInput"
+        active="--md-sys-color-primary"
+        passive="--md-sys-color-on-surface"
+      />
+    </template>
+
+    <script>
+    import 'squiggly-sliders/web';
+
+    export default {
+      data() {
+        return {
+          value: 5
+        };
+      },
+      methods: {
+        handleInput(e) {
+          this.value = e.target.value;
+        }
+      }
+    };
+    </script>
+    ```
+  </Tab>
+  
+  <Tab title="Angular">
+    ```typescript
+    import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+    import 'squiggly-sliders/web';
+
+    @Component({
+      selector: 'app-root',
+      template: `
+        <squiggly-slider
+          [attr.min]="0"
+          [attr.max]="10"
+          [attr.value]="value"
+          (input)="handleInput($event)"
+          active="--md-sys-color-primary"
+          passive="--md-sys-color-on-surface"
+        ></squiggly-slider>
+      `,
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+    })
+    export class AppComponent {
+      value = 5;
+
+      handleInput(event: Event) {
+        const slider = event.target as any;
+        this.value = slider.value;
+      }
+    }
+    ```
+  </Tab>
+</Tabs>
+
+## Disabled state
+
+You can disable the slider using the `disabled` attribute:
+
+```html
+<squiggly-slider
+  min="0"
+  max="10"
+  value="5"
+  disabled
+  active="--md-sys-color-primary"
+  passive="--md-sys-color-on-surface"
+></squiggly-slider>
+
+<button onclick="toggleDisabled()">Toggle Disabled</button>
+
+<script type="module">
+  import 'squiggly-sliders/web';
+
+  function toggleDisabled() {
+    const slider = document.querySelector('squiggly-slider');
+    slider.disabled = !slider.disabled;
+  }
+
+  window.toggleDisabled = toggleDisabled;
+</script>
+```

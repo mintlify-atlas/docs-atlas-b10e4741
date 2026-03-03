@@ -1,0 +1,138 @@
+---
+title: Installation
+description: Install Squiggly Sliders in your Svelte, React, or vanilla JavaScript project
+---
+
+# Installation
+
+Install Squiggly Sliders using your preferred package manager.
+
+## Install the package
+
+<CodeGroup>
+
+```bash npm
+npm i squiggly-sliders
+```
+
+```bash yarn
+yarn add squiggly-sliders
+```
+
+```bash pnpm
+pnpm add squiggly-sliders
+```
+
+</CodeGroup>
+
+## Framework-specific setup
+
+The installation process is identical across frameworks. The package exports different entry points depending on your environment.
+
+<Tabs>
+  <Tab title="Svelte">
+    The main export is a Svelte component. No additional configuration needed.
+
+    ```javascript
+    import SquigglySlider from 'squiggly-sliders';
+    ```
+
+    <Note>
+      Squiggly Sliders is built with Svelte 4 and SvelteKit 2. It works with both Svelte 3 and 4.
+    </Note>
+  </Tab>
+
+  <Tab title="React">
+    Import the React wrapper from the `/react` subpath:
+
+    ```javascript
+    import SquigglySlider from 'squiggly-sliders/src/lib/react/SquigglySlider.jsx';
+    ```
+
+    The React component uses hooks (`useEffect`, `useRef`, `useState`) and works with React 16.8+.
+  </Tab>
+
+  <Tab title="Web Component">
+    Import the Web Component for use in vanilla JavaScript or any framework:
+
+    ```javascript
+    import 'squiggly-sliders/src/lib/web/SquigglySliderElement.js';
+    ```
+
+    This registers the `<squiggly-slider>` custom element globally. Use it in your HTML:
+
+    ```html
+    <squiggly-slider
+      min="0"
+      max="100"
+      value="50"
+      active="--primary-color"
+      passive="--secondary-color"
+    ></squiggly-slider>
+    ```
+  </Tab>
+</Tabs>
+
+## Set up CSS variables
+
+Squiggly Sliders reads colors from CSS variables. Define these variables in your stylesheet to control the appearance:
+
+```css
+:root {
+  --md-sys-color-primary: rgb(97 97 24);
+  --md-sys-color-on-surface: rgb(28 28 20);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --md-sys-color-primary: rgb(189 189 106);
+    --md-sys-color-on-surface: rgb(228 228 220);
+  }
+}
+```
+
+<Note>
+  You can use any CSS variable names. Pass your custom variable names to the `active` and `passive` props.
+</Note>
+
+## Verify installation
+
+Create a test component to ensure everything works:
+
+<CodeGroup>
+
+```svelte Svelte
+<script>
+  import SquigglySlider from 'squiggly-sliders';
+</script>
+
+<SquigglySlider min={0} max={10} value={5} />
+```
+
+```jsx React
+import SquigglySlider from 'squiggly-sliders/src/lib/react/SquigglySlider.jsx';
+
+function App() {
+  return <SquigglySlider min={0} max={10} value={5} />;
+}
+```
+
+```html Web Component
+<squiggly-slider min="0" max="10" value="5"></squiggly-slider>
+
+<script type="module">
+  import 'squiggly-sliders/src/lib/web/SquigglySliderElement.js';
+</script>
+```
+
+</CodeGroup>
+
+You should see an animated slider with wave effects. If the colors don't appear correctly, verify that your CSS variables are defined.
+
+## Next steps
+
+Ready to build with Squiggly Sliders? Follow the quick start guide to create your first interactive slider.
+
+<Card title="Quick start" icon="rocket" href="/quickstart">
+  Build your first animated slider with Svelte
+</Card>

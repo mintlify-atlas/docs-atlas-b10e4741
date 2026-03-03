@@ -1,0 +1,213 @@
+---
+title: Basic examples
+description: Simple usage examples for Svelte, React, and Web Components
+---
+
+## Installation
+
+Install the package via your preferred package manager:
+
+<CodeGroup>
+
+```bash npm
+npm i squiggly-sliders
+```
+
+```bash pnpm
+pnpm add squiggly-sliders
+```
+
+```bash yarn
+yarn add squiggly-sliders
+```
+
+</CodeGroup>
+
+## Set up CSS variables
+
+Squiggly Sliders reads colors from CSS variables. Define them in your stylesheet:
+
+```css
+:root {
+  --md-sys-color-primary: rgb(97 97 24);
+  --md-sys-color-on-surface: rgb(28 28 20);
+}
+```
+
+## Minimal usage
+
+The simplest way to use a squiggly slider in each framework:
+
+<CodeGroup>
+
+```svelte Svelte
+<script>
+  import SquigglySlider from 'squiggly-sliders';
+</script>
+
+<SquigglySlider
+  min={0}
+  max={10}
+  value={6}
+  active={'--md-sys-color-primary'}
+  passive={'--md-sys-color-on-surface'}
+/>
+```
+
+```jsx React
+import SquigglySlider from 'squiggly-sliders/react';
+
+export default function App() {
+  return (
+    <SquigglySlider
+      min={0}
+      max={10}
+      defaultValue={6}
+      active="--md-sys-color-primary"
+      passive="--md-sys-color-on-surface"
+    />
+  );
+}
+```
+
+```html Web Components
+<script type="module">
+  import 'squiggly-sliders/web';
+</script>
+
+<squiggly-slider
+  min="0"
+  max="10"
+  value="6"
+  active="--md-sys-color-primary"
+  passive="--md-sys-color-on-surface"
+></squiggly-slider>
+```
+
+</CodeGroup>
+
+## With state management
+
+Manage slider value with component state:
+
+<CodeGroup>
+
+```svelte Svelte
+<script>
+  import SquigglySlider from 'squiggly-sliders';
+  let value = 6;
+</script>
+
+<SquigglySlider
+  bind:value
+  min={0}
+  max={10}
+  step={1}
+  active={'--md-sys-color-primary'}
+  passive={'--md-sys-color-on-surface'}
+/>
+
+<p>Current value: {value}</p>
+```
+
+```jsx React
+import { useState } from 'react';
+import SquigglySlider from 'squiggly-sliders/react';
+
+export default function App() {
+  const [value, setValue] = useState(6);
+
+  return (
+    <>
+      <SquigglySlider
+        min={0}
+        max={10}
+        step={1}
+        value={value}
+        onChange={setValue}
+        active="--md-sys-color-primary"
+        passive="--md-sys-color-on-surface"
+      />
+      <p>Current value: {value}</p>
+    </>
+  );
+}
+```
+
+```html Web Components
+<script type="module">
+  import 'squiggly-sliders/web';
+
+  const slider = document.querySelector('squiggly-slider');
+  const output = document.querySelector('#value');
+
+  slider.addEventListener('input', (e) => {
+    output.textContent = slider.value;
+  });
+</script>
+
+<squiggly-slider
+  min="0"
+  max="10"
+  step="1"
+  value="6"
+  active="--md-sys-color-primary"
+  passive="--md-sys-color-on-surface"
+></squiggly-slider>
+
+<p>Current value: <span id="value">6</span></p>
+```
+
+</CodeGroup>
+
+## Using direct color values
+
+You can pass colors directly instead of CSS variables:
+
+<CodeGroup>
+
+```svelte Svelte
+<script>
+  import SquigglySlider from 'squiggly-sliders';
+</script>
+
+<SquigglySlider
+  min={0}
+  max={10}
+  value={6}
+  active="rgb(97 97 24)"
+  passive="rgb(28 28 20)"
+/>
+```
+
+```jsx React
+import SquigglySlider from 'squiggly-sliders/react';
+
+export default function App() {
+  return (
+    <SquigglySlider
+      min={0}
+      max={10}
+      defaultValue={6}
+      active="rgb(97 97 24)"
+      passive="rgb(28 28 20)"
+    />
+  );
+}
+```
+
+```html Web Components
+<script type="module">
+  import 'squiggly-sliders/web';
+</script>
+
+<squiggly-slider
+  min="0"
+  max="10"
+  value="6"
+  active="rgb(97 97 24)"
+  passive="rgb(28 28 20)"
+></squiggly-slider>
+```
+
+</CodeGroup>

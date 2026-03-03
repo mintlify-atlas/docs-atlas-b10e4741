@@ -1,0 +1,335 @@
+---
+title: Using with React
+description: Complete guide to using Squiggly Sliders in React applications
+---
+
+Squiggly Sliders provides a React wrapper component with support for both controlled and uncontrolled usage patterns. This guide shows you how to use it in your React applications.
+
+## Installation
+
+Install the package using your preferred package manager:
+
+<CodeGroup>
+```bash npm
+npm i squiggly-sliders
+```
+
+```bash pnpm
+pnpm add squiggly-sliders
+```
+
+```bash yarn
+yarn add squiggly-sliders
+```
+</CodeGroup>
+
+## Basic usage
+
+Import the React component from the `/react` path:
+
+```jsx
+import SquigglySlider from 'squiggly-sliders/react';
+
+function App() {
+  return (
+    <SquigglySlider
+      min={0}
+      max={10}
+      defaultValue={6}
+      active="--md-sys-color-primary"
+      passive="--md-sys-color-on-surface"
+    />
+  );
+}
+```
+
+<Note>
+The React component is imported from `squiggly-sliders/react`, not the default export.
+</Note>
+
+## Controlled component
+
+For controlled usage, pass a `value` prop and an `onChange` handler:
+
+```jsx
+import { useState } from 'react';
+import SquigglySlider from 'squiggly-sliders/react';
+
+function App() {
+  const [value, setValue] = useState(6);
+
+  return (
+    <div>
+      <SquigglySlider
+        min={0}
+        max={10}
+        step={1}
+        value={value}
+        onChange={setValue}
+        active="--md-sys-color-primary"
+        passive="--md-sys-color-on-surface"
+        activeAmplitude={4}
+        passiveAmplitude={2}
+        activeWavelength={1}
+        passiveWavelength={1}
+        speedFactor={4}
+      />
+      <p>Current value: {value}</p>
+    </div>
+  );
+}
+```
+
+<Info>
+When you provide a `value` prop, the component becomes controlled. You must provide an `onChange` handler to update the value.
+</Info>
+
+## Uncontrolled component
+
+For uncontrolled usage, use `defaultValue` instead of `value`:
+
+```jsx
+import SquigglySlider from 'squiggly-sliders/react';
+
+function App() {
+  const handleChange = (newValue) => {
+    console.log('Slider changed to:', newValue);
+  };
+
+  return (
+    <SquigglySlider
+      min={0}
+      max={10}
+      defaultValue={6}
+      onChange={handleChange}
+      active="--md-sys-color-primary"
+      passive="--md-sys-color-on-surface"
+    />
+  );
+}
+```
+
+<Warning>
+Do not provide both `value` and `defaultValue` props. Use `value` for controlled components and `defaultValue` for uncontrolled components.
+</Warning>
+
+## Customizing animation
+
+You can customize the wave animation using amplitude, wavelength, and speed properties:
+
+```jsx
+import { useState } from 'react';
+import SquigglySlider from 'squiggly-sliders/react';
+
+function App() {
+  const [value, setValue] = useState(5);
+
+  return (
+    <SquigglySlider
+      min={0}
+      max={10}
+      value={value}
+      onChange={setValue}
+      activeAmplitude={7}
+      passiveAmplitude={3}
+      activeWavelength={2}
+      passiveWavelength={1.5}
+      speedFactor={6}
+      active="--md-sys-color-primary"
+      passive="--md-sys-color-on-surface"
+    />
+  );
+}
+```
+
+## All available props
+
+<Tabs>
+  <Tab title="Range props">
+    - `min` - Minimum value (default: `0`)
+    - `max` - Maximum value (default: `10`)
+    - `step` - Step increment (default: `1`)
+    - `value` - Current value (for controlled)
+    - `defaultValue` - Initial value (for uncontrolled)
+    - `onChange` - Callback function `(value: number) => void`
+    - `title` - Accessible title for the slider
+    - `disabled` - Whether the slider is disabled
+  </Tab>
+  
+  <Tab title="Color props">
+    - `active` - CSS variable name for active portion (default: `'--primary'`)
+    - `passive` - CSS variable name for passive portion (default: `'--text'`)
+  </Tab>
+  
+  <Tab title="Animation props">
+    - `activeAmplitude` - Wave height for active portion, range 0-7 (default: `4`)
+    - `passiveAmplitude` - Wave height for passive portion, range 0-7 (default: `2`)
+    - `activeWavelength` - Wave frequency for active portion, range 0.25-7 (default: `1`)
+    - `passiveWavelength` - Wave frequency for passive portion, range 0.25-7 (default: `1`)
+    - `speedFactor` - Animation speed, range 1-8 (default: `4`)
+  </Tab>
+  
+  <Tab title="Styling props">
+    - `className` - Additional CSS class names
+    - `style` - Inline styles object
+  </Tab>
+</Tabs>
+
+## Responsive behavior
+
+The component automatically resizes using a `ResizeObserver`. The canvas width adjusts to match its parent container:
+
+```jsx
+import { useState } from 'react';
+import SquigglySlider from 'squiggly-sliders/react';
+
+function App() {
+  const [value, setValue] = useState(5);
+
+  return (
+    <div style={{ width: '100%', maxWidth: '600px' }}>
+      <SquigglySlider
+        min={0}
+        max={100}
+        value={value}
+        onChange={setValue}
+        active="--md-sys-color-primary"
+        passive="--md-sys-color-on-surface"
+      />
+    </div>
+  );
+}
+```
+
+<Note>
+The component uses `ResizeObserver` to detect container size changes and automatically adjusts the canvas dimensions.
+</Note>
+
+## Styling with CSS
+
+You can apply custom styles using the `className` and `style` props:
+
+```jsx
+import { useState } from 'react';
+import SquigglySlider from 'squiggly-sliders/react';
+
+function App() {
+  const [value, setValue] = useState(5);
+
+  return (
+    <SquigglySlider
+      min={0}
+      max={10}
+      value={value}
+      onChange={setValue}
+      className="my-slider"
+      style={{ marginBottom: '20px' }}
+      active="--md-sys-color-primary"
+      passive="--md-sys-color-on-surface"
+    />
+  );
+}
+```
+
+## Accessibility
+
+The component uses a native HTML range input underneath the canvas, ensuring keyboard accessibility:
+
+```jsx
+import { useState } from 'react';
+import SquigglySlider from 'squiggly-sliders/react';
+
+function App() {
+  const [volume, setVolume] = useState(50);
+
+  return (
+    <SquigglySlider
+      min={0}
+      max={100}
+      value={volume}
+      onChange={setVolume}
+      title="Volume control"
+      active="--md-sys-color-primary"
+      passive="--md-sys-color-on-surface"
+    />
+  );
+}
+```
+
+<Info>
+The `title` prop sets an accessible label. The canvas element is marked with `aria-hidden="true"` so assistive technology focuses on the underlying range input.
+</Info>
+
+## Dark mode support
+
+The component automatically responds to color scheme changes by re-reading CSS variables:
+
+```jsx
+import { useState } from 'react';
+import SquigglySlider from 'squiggly-sliders/react';
+import './App.css';
+
+function App() {
+  const [value, setValue] = useState(5);
+
+  return (
+    <SquigglySlider
+      min={0}
+      max={10}
+      value={value}
+      onChange={setValue}
+      active="--md-sys-color-primary"
+      passive="--md-sys-color-on-surface"
+    />
+  );
+}
+```
+
+```css App.css
+:root {
+  --md-sys-color-primary: rgb(97 97 24);
+  --md-sys-color-on-surface: rgb(28 28 20);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --md-sys-color-primary: rgb(220 220 140);
+    --md-sys-color-on-surface: rgb(230 230 220);
+  }
+}
+```
+
+<Note>
+The component listens to `prefers-color-scheme` media query changes and automatically updates colors.
+</Note>
+
+## Disabled state
+
+You can disable the slider using the `disabled` prop:
+
+```jsx
+import { useState } from 'react';
+import SquigglySlider from 'squiggly-sliders/react';
+
+function App() {
+  const [value, setValue] = useState(5);
+  const [disabled, setDisabled] = useState(false);
+
+  return (
+    <div>
+      <SquigglySlider
+        min={0}
+        max={10}
+        value={value}
+        onChange={setValue}
+        disabled={disabled}
+        active="--md-sys-color-primary"
+        passive="--md-sys-color-on-surface"
+      />
+      <button onClick={() => setDisabled(!disabled)}>
+        {disabled ? 'Enable' : 'Disable'} Slider
+      </button>
+    </div>
+  );
+}
+```
