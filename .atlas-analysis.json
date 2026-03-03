@@ -1,0 +1,64 @@
+{
+  "projectType": "sdk-library",
+  "projectName": "Squiggly Sliders",
+  "projectDescription": "Animated wave-effect sliders for Svelte, React, and vanilla JavaScript with CSS-variable theming.",
+  "theme": "almond",
+  "primaryColor": "#9575cd",
+  "lightColor": "#c7a4ff",
+  "darkColor": "#6a4c93",
+  "navigation": {
+    "groups": [
+      {
+        "group": "Get Started",
+        "pages": [
+          "introduction",
+          "installation",
+          "quickstart"
+        ]
+      },
+      {
+        "group": "Guides",
+        "pages": [
+          "guides/svelte",
+          "guides/react",
+          "guides/web-components",
+          "guides/theming",
+          "guides/animation-props"
+        ]
+      },
+      {
+        "group": "API Reference",
+        "pages": [
+          "api/props",
+          "api/methods"
+        ]
+      },
+      {
+        "group": "Examples",
+        "pages": [
+          "examples/basic",
+          "examples/advanced",
+          "examples/material-you"
+        ]
+      }
+    ]
+  },
+  "keyFeatures": [
+    "Animated wave effects with customizable amplitude and wavelength",
+    "Multi-framework support (Svelte, React, Web Components)",
+    "CSS variable theming with Material You design tokens",
+    "Customizable animation speed and wave properties",
+    "Automatic color scheme detection and adaptation",
+    "Smooth easing animations with exponential curves"
+  ],
+  "publicApiSurface": [
+    "SquigglySlider (Svelte component)",
+    "SquigglySlider (React component)",
+    "<squiggly-slider> (Web Component)",
+    "Props: min, max, step, value",
+    "Props: active, passive (color tokens)",
+    "Props: activeAmplitude, passiveAmplitude, speedFactor",
+    "Props: activeWavelength, passiveWavelength",
+    "Methods: show(), hide(), pause(), resume(), resetSize()"
+  ]
+}
